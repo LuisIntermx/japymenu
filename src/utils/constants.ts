@@ -1,0 +1,1 @@
+export const defaultColor = 'rgb(209,15,23)';
