@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SnackbarProvider } from "notistack";
 import { OrderProvider } from "../context/OrderContext";
+import { AuthProvider } from "../context/AuthContext";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
@@ -36,7 +37,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
           horizontal: "center",
         }}
       >
-        <OrderProvider>{children}</OrderProvider>
+        <AuthProvider>
+          <OrderProvider>{children}</OrderProvider>
+        </AuthProvider>
       </SnackbarProvider>
     </QueryClientProvider>
   );

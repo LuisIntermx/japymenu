@@ -7,12 +7,15 @@ import Image from "next/image";
 import { countOrders } from "@/app/features/order/api/count";
 import { useOrder } from "../context/OrderContext";
 import Logo from "../assets/japymenu-logo.png";
+import { Logout } from "@mui/icons-material";
+import { useAuth } from "../context/AuthContext";
 
 const Home = () => {
   const router = useRouter();
   const { setOrder } = useOrder();
   const [activeOrders, setActiveOrders] = useState(0);
-
+  const { logout } = useAuth();
+  
   const handleGetActiveOrders = async () => {
     const response = await countOrders().catch(() => null);
     if (response) {
@@ -89,6 +92,28 @@ const Home = () => {
           onClick={() => router.push("/settings")}
         >
           Configuración
+        </Button>
+      </Grid>
+      <Grid size={{ xs: 12 }}>
+        <Button
+          variant="contained"
+          fullWidth
+          sx={{
+            borderColor: "rgb(209,15,23)",
+            backgroundColor: "rgb(209,15,23)",
+            color: "white",
+            borderRadius: 20,
+            padding: 2,
+            fontWeight: "bold",
+            fontSize: "18px",
+            textTransform: "none",
+          }}
+          onClick={() => {
+            logout();
+          }}
+          startIcon={<Logout />}
+        >
+          Bloquear
         </Button>
       </Grid>
       <Grid

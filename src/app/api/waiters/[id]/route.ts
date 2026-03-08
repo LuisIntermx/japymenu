@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { ObjectId } from "mongodb";
 import clientPromise from "@/lib/mongodb";
+import bcrypt from "bcryptjs";
 const { DEFAULT_DB } = process.env;
 
 export async function GET(
@@ -55,9 +56,15 @@ export async function PUT(
         { status: 404 }
       );
     }
+    // Hash password if it's being updated
+    const updateData = { ...body };
+    if (body.password) {
+      updateData.password = await bcrypt.hash(body.password, 10);
+    }
+
     const result = await collection.findOneAndUpdate(
       { _id: new ObjectId(id) },
-      { $set: body }
+      { $set: updateData }
     );
     return NextResponse.json({ success: true, id: result?._id });
   } catch (error) {

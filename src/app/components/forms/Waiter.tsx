@@ -13,6 +13,7 @@ import { Waiter } from "@/types/waiter";
 
 const schema = yup.object().shape({
   name: yup.string().required("Nombre requerido"),
+  password: yup.string().min(4, "La contraseña debe tener al menos 4 caracteres").required("Contraseña requerida"),
 });
 
 type FormData = yup.InferType<typeof schema>;
@@ -41,6 +42,7 @@ const WaiterFormDrawer: React.FC<WaiterFormDrawerProps> = ({
     resolver: yupResolver(schema),
     defaultValues: {
       name: "",
+      password: "",
     },
   });
 
@@ -54,6 +56,7 @@ const WaiterFormDrawer: React.FC<WaiterFormDrawerProps> = ({
     onClose();
     reset({
       name: "",
+      password: "",
     });
   };
 
@@ -81,6 +84,22 @@ const WaiterFormDrawer: React.FC<WaiterFormDrawerProps> = ({
                 margin="normal"
                 error={!!errors.name}
                 helperText={errors.name?.message}
+              />
+            )}
+          />
+
+          <Controller
+            name="password"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Contraseña"
+                type="password"
+                fullWidth
+                margin="normal"
+                error={!!errors.password}
+                helperText={errors.password?.message}
               />
             )}
           />
